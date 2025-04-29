@@ -7,22 +7,16 @@ import java.util.Scanner;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
-    static ArrayList<Transactions> entries = new ArrayList<>();
+    static ArrayList<Transaction> transactionDetails = new ArrayList<>();
     public static  void main(String[] args) {
 
+
+
+        System.out.println("******************************************************************************");
+        System.out.println("***                   WELCOME TO THE PLURALSIGHT BANK                      ***");
+        System.out.println("******************************************************************************");
+
        displayHomeScreen();
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     }
@@ -30,9 +24,8 @@ public class Main {
     private static void displayHomeScreen() {
         char homeScreenUserInput;
         do{
-            System.out.println("******************************************************************************");
-            System.out.println("***                   WELCOME TO THE PLURALSIGHT BANK                      ***");
-            System.out.println("******************************************************************************");
+
+            System.out.println("\n******************************************************************************");
             System.out.println("*                     Please pick one of the following options               *" );
             System.out.println("*                                                                            *");
             System.out.println("*                           D) Add Deposit                                   *");
@@ -67,7 +60,7 @@ public class Main {
     }
 
     private static void displayLedgerScreen() {
-        System.out.println("******************************************************************************");
+        System.out.println("\n******************************************************************************");
         System.out.println("*                       YOU HAVE SELECTED LEDGER                             *" );
         System.out.println("******************************************************************************");
         System.out.println("*               Please select one of the following options:                  *");
@@ -107,13 +100,18 @@ public class Main {
 
 
     private static void displayReports() {
-        System.out.println("PLease select one of the following options:");
-        System.out.println("1. Month to Date");
-        System.out.println("2. Previous Month");
-        System.out.println("3. Year to Date");
-        System.out.println("4. Previous Year");
-        System.out.println("5. Search by Vendor");
-        System.out.println("0. Back ");
+        System.out.println("\n******************************************************************************");
+        System.out.println("*                    YOU HAVE SELECTED REPORTS                               *");
+        System.out.println("******************************************************************************");
+        System.out.println("*               PLease select one of the following options:                  *");
+        System.out.println("*                                                                            *");
+        System.out.println("*                           1. Month to Date                                 *");
+        System.out.println("*                           2. Previous Month                                *");
+        System.out.println("*                           3. Year to Date                                  *");
+        System.out.println("*                           4. Previous Year                                 *");
+        System.out.println("*                           5. Search by Vendor                              *");
+        System.out.println("*                           0. Back                                          *");
+        System.out.println("******************************************************************************");
 
         int reportsUserInput = scanner.nextInt();
 
@@ -157,24 +155,19 @@ public class Main {
     }
 
     private static void displayPayments() {
-    }
-
-    private static void displayDeposits() {
-    }
-
-    private static  void displayAllTransactions() {
-        System.out.println("******************************************************************************");
-        System.out.println("*                          ALL TRANSACTIONS                                  *");
+        System.out.println("\n******************************************************************************");
+        System.out.println("*                         DISPLAYING ALL PAYMENTS                            *");
         System.out.println("******************************************************************************\n");
+
         try {
             BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
             String firstLine = reader.readLine();
-            String data;
+            String line;
 
 
-            while ((data = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null) {
 
-                String[] entries = data.split("\\|");
+                String[] entries = line.split("\\|");
 
                 String date = entries[0];
                 String time = entries[1];
@@ -182,11 +175,100 @@ public class Main {
                 String vendor = entries[3];
                 double amount = Double.parseDouble(entries[4].trim());
 
+                Transaction details = new Transaction(date, time, description, vendor, amount);
+                transactionDetails.add(details);
 
-                System.out.println(date + " " + time + " "+ description+ " "+ vendor+ " "+ amount);
+            }
+
+            for (Transaction details : transactionDetails) {
+
+                if (details.getAmount() < 0) {
+                    System.out.println(details);
+
+                }
+            }
+            System.out.println("\n\n******************************************************************************");
+
+            reader.close();
+        }
+        catch(IOException e){
+            System.out.println("Error reading file "+ e.getMessage());
+        }
+
+    }
+
+    private static void displayDeposits() {
+
+        System.out.println("\n******************************************************************************");
+        System.out.println("*                         DISPLAYING ALL DEPOSITS                            *");
+        System.out.println("******************************************************************************\n");
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
+            String firstLine = reader.readLine();
+            String line;
 
 
+            while ((line = reader.readLine()) != null) {
 
+                String[] entries = line.split("\\|");
+
+                String date = entries[0];
+                String time = entries[1];
+                String description = entries[2];
+                String vendor = entries[3];
+                double amount = Double.parseDouble(entries[4].trim());
+
+                Transaction details = new Transaction(date, time, description, vendor, amount);
+                transactionDetails.add(details);
+
+            }
+
+            for (Transaction details : transactionDetails) {
+
+                if (details.getAmount() > 0) {
+                    System.out.println(details);
+
+                }
+            }
+            System.out.println("\n\n******************************************************************************");
+
+            reader.close();
+        }
+         catch(IOException e){
+            System.out.println("Error reading file "+ e.getMessage());
+        }
+
+
+    }
+
+    private static  void displayAllTransactions() {
+        System.out.println("\n******************************************************************************");
+        System.out.println("*                          ALL TRANSACTIONS                                  *");
+        System.out.println("******************************************************************************\n");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
+            String firstLine = reader.readLine();
+            String line;
+
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] entries = line.split("\\|");
+
+                String date = entries[0];
+                String time = entries[1];
+                String description = entries[2];
+                String vendor = entries[3];
+                double amount = Double.parseDouble(entries[4].trim());
+
+                Transaction details = new Transaction(date,time,description,vendor,amount);
+                transactionDetails.add(details);
+
+                }
+
+                for(Transaction details : transactionDetails){
+                    System.out.println(details);
 
             }
             System.out.println("\n\n******************************************************************************");
@@ -195,15 +277,17 @@ public class Main {
         } catch(IOException e){
             System.out.println("Error reading file "+ e.getMessage());
         }
+
     }
 
     private static void makePayment() {
-        System.out.println("******************************************************************************");
+        System.out.println("\n******************************************************************************");
         System.out.println("*                    YOU HAVE SELECTED TO MAKE PAYMENTS                      *");
         System.out.println("******************************************************************************");
         System.out.println("*  PLEASE ADD THE PAYMENT INFO. IN THE FOLLOWING MANNER SEPARATED BY COMMAS  *");
         System.out.println("*    Example: 2023-04-24,12:00:00,Invoice 1006 paid,PixelWorks,1600.00       *");
         System.out.println("******************************************************************************");
+
 
         try{
             FileWriter fileWriter = new FileWriter("transactions.csv",true);
@@ -236,21 +320,10 @@ public class Main {
             throw new RuntimeException("File write error" +e.getMessage());
         }
 
-
-
-
-
-
-
-
-
-
-
-
     }
 
     private static void addDeposit() {
-        System.out.println("*******************************************************************************");
+        System.out.println("\n*******************************************************************************");
         System.out.println("*                    YOU HAVE SELECTED  TO DEPOSIT                            *");
         System.out.println("*******************************************************************************");
         System.out.println("*    PLEASE ADD THE DEPOSIT IN THE FOLLOWING MANNER SEPARATED BY COMMAS       *");

@@ -1,6 +1,6 @@
 package com.ps;
 
-public class Transactions {
+public class Transaction {
 
         private String date;
         private String time;
@@ -9,7 +9,7 @@ public class Transactions {
         private double amount;
 
 
-        public Transactions(String date, String time, String description, String vendor, double amount) {
+        public Transaction(String date, String time, String description, String vendor, double amount) {
             this.date = date;
             this.time = time;
             this.description = description;
@@ -55,6 +55,17 @@ public class Transactions {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction | " +
+                "Date : '" + date + '\'' +
+                ", Time : '" + time + '\'' +
+                ", Description : '" + description + '\'' +
+                ",             Vendor : '" + vendor + '\'' +
+                ",        Amount : " + amount +
+                '}';
     }
 }
 

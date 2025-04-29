@@ -1,8 +1,7 @@
 package com.ps;
 
-import javax.xml.crypto.Data;
+
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -50,9 +49,11 @@ public class Main {
                     break;
 
                 case 'P':
+                    scanner.nextLine();
                     makePayment();
                     break;
                 case 'L':
+                    scanner.nextLine();
                     displayLedgerScreen();
                     break;
                 case 'X':
@@ -82,6 +83,7 @@ public class Main {
 
         switch(ledgerScreenUserInput){
             case 'A':
+                scanner.nextLine();
                 displayAllTransactions();
                 break;
             case 'D':
@@ -196,15 +198,64 @@ public class Main {
     }
 
     private static void makePayment() {
+        System.out.println("******************************************************************************");
+        System.out.println("*                    YOU HAVE SELECTED TO MAKE PAYMENTS                      *");
+        System.out.println("******************************************************************************");
+        System.out.println("*  PLEASE ADD THE PAYMENT INFO. IN THE FOLLOWING MANNER SEPARATED BY COMMAS  *");
+        System.out.println("*    Example: 2023-04-24,12:00:00,Invoice 1006 paid,PixelWorks,1600.00       *");
+        System.out.println("******************************************************************************");
+
+        try{
+            FileWriter fileWriter = new FileWriter("transactions.csv",true);
+
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+
+
+            String inputPayment = scanner.nextLine().trim();
+
+            String[] userPaymentInput = inputPayment.split(",");
+
+
+            String paymentDate = userPaymentInput[0];
+            String paymentTime = userPaymentInput[1];
+            String paymentDescription = userPaymentInput[2];
+            String paymentVendor = userPaymentInput[3];
+            double paymentAmount = Double.parseDouble(userPaymentInput[4].trim());
+            paymentAmount = -paymentAmount;
+
+            String newPayment = String.format("%s|%s|%s|%s|%.2f", paymentDate,paymentTime,paymentDescription,paymentVendor,paymentAmount);
+
+            writer.write(newPayment);
+            writer.newLine();
+            writer.close();
+
+            System.out.println(" You have added "+ newPayment+"\n\n");
+
+
+        } catch (IOException e) {
+            throw new RuntimeException("File write error" +e.getMessage());
+        }
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     private static void addDeposit() {
-        System.out.println("******************************************************************************");
-        System.out.println("*                    YOU HAVE SELECTED  TO DEPOSIT                           *");
-        System.out.println("******************************************************************************");
-        System.out.println("*    PLEASE ADD THE DEPOSIT IN THE FOLLOWING MANNER SEPARATED BY SPACE       *");
-        System.out.println("*    Example: 2023-04-24 12:00:00 Invoice 1006 paid PixelWorks 1600.00       *");
-        System.out.println("******************************************************************************");
+        System.out.println("*******************************************************************************");
+        System.out.println("*                    YOU HAVE SELECTED  TO DEPOSIT                            *");
+        System.out.println("*******************************************************************************");
+        System.out.println("*    PLEASE ADD THE DEPOSIT IN THE FOLLOWING MANNER SEPARATED BY COMMAS       *");
+        System.out.println("*    Example: 2023-04-24,12:00:00,Invoice 1006 paid,PixelWorks,1600.00        *");
+        System.out.println("*******************************************************************************");
 
 
         try{
@@ -215,14 +266,14 @@ public class Main {
 
             String inputDeposit = scanner.nextLine().trim();
 
-            String[] userInput = inputDeposit.split(" ");
+            String[] userDepositInput = inputDeposit.split(",");
 
 
-            String date = userInput[0];
-            String time = userInput[1];
-            String description = userInput[2];
-            String vendor = userInput[3];
-            double amount = Double.parseDouble(userInput[4].trim());
+            String date = userDepositInput[0];
+            String time = userDepositInput[1];
+            String description = userDepositInput[2];
+            String vendor = userDepositInput[3];
+            double amount = Double.parseDouble(userDepositInput[4].trim());
 
             String newDeposit = String.format("%s|%s|%s|%s|%.2f", date,time,description,vendor,amount);
 

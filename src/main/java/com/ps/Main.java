@@ -1,10 +1,14 @@
 package com.ps;
 
+import javax.xml.crypto.Data;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
-    public static void main(String[] args) {
+    static ArrayList<Transactions> entries = new ArrayList<>();
+    public static  void main(String[] args) {
 
        displayHomeScreen();
 
@@ -20,15 +24,57 @@ public class Main {
 
 
 
+
+    }
+
+    private static void displayHomeScreen() {
+        char homeScreenUserInput;
+        do{
+            System.out.println("******************************************************************************");
+            System.out.println("***                   WELCOME TO THE PLURALSIGHT BANK                      ***");
+            System.out.println("******************************************************************************");
+            System.out.println("*                     Please pick one of the following options               *" );
+            System.out.println("*                                                                            *");
+            System.out.println("*                           D) Add Deposit                                   *");
+            System.out.println("*                           P) Make Payment                                  *");
+            System.out.println("*                           L) Ledger                                        *");
+            System.out.println("*                           X) Exit                                          *");
+            System.out.println("******************************************************************************");
+            homeScreenUserInput= Character.toUpperCase(scanner.next().charAt(0));
+
+            switch(homeScreenUserInput){
+                case 'D':
+                    addDeposit();
+                    break;
+
+                case 'P':
+                    makePayment();
+                    break;
+                case 'L':
+                    displayLedgerScreen();
+                    break;
+                case 'X':
+                    System.out.println("You have exited the application. Thank you for browsing.");
+                    break;
+                default:
+                    System.out.println("Wrong Input! Try again");
+            }
+        }while (homeScreenUserInput != 'X' );
+
     }
 
     private static void displayLedgerScreen() {
-        System.out.println("Please select one of the following options:");
-        System.out.println("A) All");
-        System.out.println("D) Deposits");
-        System.out.println("P) Payments");
-        System.out.println("R) Reports");
-        System.out.println("H) Home");
+        System.out.println("******************************************************************************");
+        System.out.println("*                       YOU HAVE SELECTED LEDGER                             *" );
+        System.out.println("******************************************************************************");
+        System.out.println("*               Please select one of the following options:                  *");
+        System.out.println("*                                                                            *");
+        System.out.println("*                               A) All Transactions                          *");
+        System.out.println("*                               D) Deposits                                  *");
+        System.out.println("*                               P) Payments                                  *");
+        System.out.println("*                               R) Reports                                   *");
+        System.out.println("*                               H) Home                                      *");
+        System.out.println("******************************************************************************");
 
         char ledgerScreenUserInput = Character.toUpperCase(scanner.next().charAt(0));
 
@@ -54,36 +100,7 @@ public class Main {
 
     }
 
-    private static void displayHomeScreen() {
-        char homeScreenUserInput;
-        do{
-            System.out.println("Welcome to the Plural Sight Bank");
-            System.out.println("D) Add Deposit");
-            System.out.println("P) Make Payment");
-            System.out.println("L) Ledger");
-            System.out.println("X) Exit\n What you you like to do?");
-            homeScreenUserInput= Character.toUpperCase(scanner.next().charAt(0));
 
-            switch(homeScreenUserInput){
-                case 'D':
-                    addDeposit();
-                    break;
-
-                case 'P':
-                    makePayment();
-                    break;
-                case 'L':
-                    displayLedgerScreen();
-                    break;
-                case 'X':
-                    System.out.println("You have exited the application. Thank you for browsing");
-                    break;
-                default:
-                    System.out.println("Wrong Input! Try again");
-            }
-        }while (homeScreenUserInput != 'X' );
-
-    }
 
     private static void displayReports() {
         System.out.println("PLease select one of the following options:");
@@ -141,12 +158,87 @@ public class Main {
     private static void displayDeposits() {
     }
 
-    private static void displayAllTransactions() {
+    private static  void displayAllTransactions() {
+        System.out.println("******************************************************************************");
+        System.out.println("*                          ALL TRANSACTIONS                                  *");
+        System.out.println("******************************************************************************\n");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
+            String firstLine = reader.readLine();
+            String data;
+
+
+            while ((data = reader.readLine()) != null) {
+
+                String[] entries = data.split("\\|");
+
+                String date = entries[0];
+                String time = entries[1];
+                String description = entries[2];
+                String vendor = entries[3];
+                double amount = Double.parseDouble(entries[4].trim());
+
+                Transactions transaction = new Transactions(date,time,description,vendor,amount);
+                System.out.println(date + " " + time + " "+ description+ " "+ vendor+ " "+ amount);
+
+                entries.add(transaction);
+
+
+            }
+            System.out.println("\n\n******************************************************************************");
+
+            reader.close();
+        } catch(IOException e){
+            System.out.println("Error reading file "+ e.getMessage());
+        }
     }
 
     private static void makePayment() {
     }
 
     private static void addDeposit() {
+        System.out.println("******************************************************************************");
+
+
+        try{
+            FileWriter fileWriter = new FileWriter("transactions.txt");
+
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+
+            String inputDeposit = scanner.nextLine();
+
+            String[] userInput = inputDeposit.split(" ");
+
+            String date = userInput[0];
+            String time = userInput[1];
+            String description = userInput[2];
+            String vendor = userInput[3];
+            double amount = Double.parseDouble(userInput[4].trim());
+
+
+
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

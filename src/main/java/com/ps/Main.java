@@ -2,6 +2,7 @@ package com.ps;
 
 import javax.xml.crypto.Data;
 import java.io.*;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -44,6 +45,7 @@ public class Main {
 
             switch(homeScreenUserInput){
                 case 'D':
+                    scanner.nextLine();
                     addDeposit();
                     break;
 
@@ -178,10 +180,10 @@ public class Main {
                 String vendor = entries[3];
                 double amount = Double.parseDouble(entries[4].trim());
 
-                Transactions transaction = new Transactions(date,time,description,vendor,amount);
+
                 System.out.println(date + " " + time + " "+ description+ " "+ vendor+ " "+ amount);
 
-                entries.add(transaction);
+
 
 
             }
@@ -198,16 +200,23 @@ public class Main {
 
     private static void addDeposit() {
         System.out.println("******************************************************************************");
+        System.out.println("*                    YOU HAVE SELECTED  TO DEPOSIT                           *");
+        System.out.println("******************************************************************************");
+        System.out.println("*    PLEASE ADD THE DEPOSIT IN THE FOLLOWING MANNER SEPARATED BY SPACE       *");
+        System.out.println("*    Example: 2023-04-24 12:00:00 Invoice 1006 paid PixelWorks 1600.00       *");
+        System.out.println("******************************************************************************");
 
 
         try{
-            FileWriter fileWriter = new FileWriter("transactions.txt");
+            FileWriter fileWriter = new FileWriter("transactions.csv",true);
 
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
-            String inputDeposit = scanner.nextLine();
+
+            String inputDeposit = scanner.nextLine().trim();
 
             String[] userInput = inputDeposit.split(" ");
+
 
             String date = userInput[0];
             String time = userInput[1];
@@ -215,30 +224,18 @@ public class Main {
             String vendor = userInput[3];
             double amount = Double.parseDouble(userInput[4].trim());
 
+            String newDeposit = String.format("%s|%s|%s|%s|%.2f", date,time,description,vendor,amount);
 
+            writer.write(newDeposit);
+            writer.newLine();
+            writer.close();
 
+            System.out.println(" You have added "+ newDeposit+"\n\n");
 
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("File write error" +e.getMessage());
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }

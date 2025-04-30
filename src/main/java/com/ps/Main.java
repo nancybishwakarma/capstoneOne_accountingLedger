@@ -7,24 +7,20 @@ import java.util.Scanner;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
+    public static final String YELLOW = "\u001B[33m";
+    public static final String RESET = "\u001B[0m";
+    public static final String BLUE = "\u001B[34m";
+    public static final String GREEN = "\u001B[32m";
+
     static ArrayList<Transaction> transactionDetails = new ArrayList<>();
     public static  void main(String[] args) {
 
-
-
-        System.out.println("******************************************************************************");
-        System.out.println("***                   WELCOME TO THE PLURALSIGHT BANK                      ***");
-        System.out.println("******************************************************************************");
-
-       displayHomeScreen();
-
-
-    }
-
-    private static void displayHomeScreen() {
         char homeScreenUserInput;
         do{
 
+            System.out.println(GREEN+"+******************************************************************************");
+            System.out.println("***                   WELCOME TO THE PLURALSIGHT BANK                      ***");
+            System.out.println("******************************************************************************");
             System.out.println("\n******************************************************************************");
             System.out.println("*                     Please pick one of the following options               *" );
             System.out.println("*                                                                            *");
@@ -32,7 +28,7 @@ public class Main {
             System.out.println("*                           P) Make Payment                                  *");
             System.out.println("*                           L) Ledger                                        *");
             System.out.println("*                           X) Exit                                          *");
-            System.out.println("******************************************************************************");
+            System.out.println("******************************************************************************"+ RESET);
             homeScreenUserInput= Character.toUpperCase(scanner.next().charAt(0));
 
             switch(homeScreenUserInput){
@@ -56,11 +52,12 @@ public class Main {
                     System.out.println("Wrong Input! Try again");
             }
         }while (homeScreenUserInput != 'X' );
-
     }
 
+
+
     private static void displayLedgerScreen() {
-        System.out.println("\n******************************************************************************");
+        System.out.println(YELLOW+"\n+******************************************************************************");
         System.out.println("*                       YOU HAVE SELECTED LEDGER                             *" );
         System.out.println("******************************************************************************");
         System.out.println("*               Please select one of the following options:                  *");
@@ -70,7 +67,7 @@ public class Main {
         System.out.println("*                               P) Payments                                  *");
         System.out.println("*                               R) Reports                                   *");
         System.out.println("*                               H) Home                                      *");
-        System.out.println("******************************************************************************");
+        System.out.println("******************************************************************************"+RESET);
 
         char ledgerScreenUserInput = Character.toUpperCase(scanner.next().charAt(0));
 
@@ -89,18 +86,16 @@ public class Main {
                 displayReports();
                 break;
             case 'H':
-                displayHomeScreen();
-                break;
-
+                System.out.println("Exiting to the Home Screen");
+            default:
+                System.out.println("Wrong input! PLease try again");
 
         }
 
     }
 
-
-
     private static void displayReports() {
-        System.out.println("\n******************************************************************************");
+        System.out.println(BLUE+"\n******************************************************************************");
         System.out.println("*                    YOU HAVE SELECTED REPORTS                               *");
         System.out.println("******************************************************************************");
         System.out.println("*               PLease select one of the following options:                  *");
@@ -111,7 +106,7 @@ public class Main {
         System.out.println("*                           4. Previous Year                                 *");
         System.out.println("*                           5. Search by Vendor                              *");
         System.out.println("*                           0. Back                                          *");
-        System.out.println("******************************************************************************");
+        System.out.println("******************************************************************************"+ RESET);
 
         int reportsUserInput = scanner.nextInt();
 
@@ -129,17 +124,32 @@ public class Main {
                 displayPreviousYear();
                 break;
             case 5:
+
                 displaySearchByVendor();
                 break;
             case 0:
                 displayReports();
                 break;
-
+            default:
+                System.out.println("Wrong input! Please try again.");
 
         }
     }
 
     private static void displaySearchByVendor() {
+        displayAllTransactions();
+        System.out.println("Please enter the vendor's name: ");
+        scanner.nextLine();
+        String vendorNameInput = scanner.nextLine()
+
+
+        for(Transaction transaction : transactionDetails){
+            String vendorToCompare = transaction.getVendor();
+            if(vendorNameInput.trim().equalsIgnoreCase(vendorToCompare.trim())){
+                System.out.println(vendorToCompare);
+            }
+        }
+
     }
 
     private static void displayPreviousYear() {
@@ -152,6 +162,18 @@ public class Main {
     }
 
     private static void displayMonthToDate() {
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     private static void displayPayments() {

@@ -13,25 +13,26 @@ public class Main {
     public static final String GREEN = "\u001B[32m";
 
     static ArrayList<Transaction> transactionDetails = new ArrayList<>();
-    public static  void main(String[] args) {
+
+    public static void main(String[] args) {
 
         char homeScreenUserInput;
-        do{
+        do {
 
-            System.out.println(GREEN+"+******************************************************************************");
+            System.out.println(GREEN + "+******************************************************************************");
             System.out.println("***                   WELCOME TO THE PLURALSIGHT BANK                      ***");
             System.out.println("******************************************************************************");
             System.out.println("\n******************************************************************************");
-            System.out.println("*                     Please pick one of the following options               *" );
+            System.out.println("*                     Please pick one of the following options               *");
             System.out.println("*                                                                            *");
             System.out.println("*                           D) Add Deposit                                   *");
             System.out.println("*                           P) Make Payment                                  *");
             System.out.println("*                           L) Ledger                                        *");
             System.out.println("*                           X) Exit                                          *");
-            System.out.println("******************************************************************************"+ RESET);
-            homeScreenUserInput= Character.toUpperCase(scanner.next().charAt(0));
+            System.out.println("******************************************************************************" + RESET);
+            homeScreenUserInput = Character.toUpperCase(scanner.next().charAt(0));
 
-            switch(homeScreenUserInput){
+            switch (homeScreenUserInput) {
                 case 'D':
                     scanner.nextLine();
                     addDeposit();
@@ -51,14 +52,13 @@ public class Main {
                 default:
                     System.out.println("Wrong Input! Try again");
             }
-        }while (homeScreenUserInput != 'X' );
+        } while (homeScreenUserInput != 'X');
     }
 
 
-
     private static void displayLedgerScreen() {
-        System.out.println(YELLOW+"\n+******************************************************************************");
-        System.out.println("*                       YOU HAVE SELECTED LEDGER                             *" );
+        System.out.println(YELLOW + "\n+******************************************************************************");
+        System.out.println("*                       YOU HAVE SELECTED LEDGER                             *");
         System.out.println("******************************************************************************");
         System.out.println("*               Please select one of the following options:                  *");
         System.out.println("*                                                                            *");
@@ -67,11 +67,11 @@ public class Main {
         System.out.println("*                               P) Payments                                  *");
         System.out.println("*                               R) Reports                                   *");
         System.out.println("*                               H) Home                                      *");
-        System.out.println("******************************************************************************"+RESET);
+        System.out.println("******************************************************************************" + RESET);
 
         char ledgerScreenUserInput = Character.toUpperCase(scanner.next().charAt(0));
 
-        switch(ledgerScreenUserInput){
+        switch (ledgerScreenUserInput) {
             case 'A':
                 scanner.nextLine();
                 displayAllTransactions();
@@ -95,7 +95,7 @@ public class Main {
     }
 
     private static void displayReports() {
-        System.out.println(BLUE+"\n******************************************************************************");
+        System.out.println(BLUE + "\n******************************************************************************");
         System.out.println("*                    YOU HAVE SELECTED REPORTS                               *");
         System.out.println("******************************************************************************");
         System.out.println("*               PLease select one of the following options:                  *");
@@ -106,11 +106,11 @@ public class Main {
         System.out.println("*                           4. Previous Year                                 *");
         System.out.println("*                           5. Search by Vendor                              *");
         System.out.println("*                           0. Back                                          *");
-        System.out.println("******************************************************************************"+ RESET);
+        System.out.println("******************************************************************************" + RESET);
 
         int reportsUserInput = scanner.nextInt();
 
-        switch(reportsUserInput){
+        switch (reportsUserInput) {
             case 1:
                 displayMonthToDate();
                 break;
@@ -140,13 +140,12 @@ public class Main {
         displayAllTransactions();
         System.out.println("Please enter the vendor's name: ");
         scanner.nextLine();
-        String vendorNameInput = scanner.nextLine()
+        String vendorNameInput = scanner.nextLine();
 
 
-        for(Transaction transaction : transactionDetails){
-            String vendorToCompare = transaction.getVendor();
-            if(vendorNameInput.trim().equalsIgnoreCase(vendorToCompare.trim())){
-                System.out.println(vendorToCompare);
+        for (Transaction transaction : transactionDetails) {
+            if (vendorNameInput.equalsIgnoreCase(transaction.getVendor())) {
+                System.out.println(transaction.getDate() + " " + transaction.getTime() + " " + transaction.getDescription() + " " + transaction.getVendor() + " " + transaction.getAmount());
             }
         }
 
@@ -162,16 +161,6 @@ public class Main {
     }
 
     private static void displayMonthToDate() {
-
-
-
-
-
-
-
-
-
-
 
 
     }
@@ -212,9 +201,8 @@ public class Main {
             System.out.println("\n\n******************************************************************************");
 
             reader.close();
-        }
-        catch(IOException e){
-            System.out.println("Error reading file "+ e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error reading file " + e.getMessage());
         }
 
     }
@@ -256,15 +244,14 @@ public class Main {
             System.out.println("\n\n******************************************************************************");
 
             reader.close();
-        }
-         catch(IOException e){
-            System.out.println("Error reading file "+ e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error reading file " + e.getMessage());
         }
 
 
     }
 
-    private static  void displayAllTransactions() {
+    private static void displayAllTransactions() {
         System.out.println("\n******************************************************************************");
         System.out.println("*                          ALL TRANSACTIONS                                  *");
         System.out.println("******************************************************************************\n");
@@ -284,20 +271,20 @@ public class Main {
                 String vendor = entries[3];
                 double amount = Double.parseDouble(entries[4].trim());
 
-                Transaction details = new Transaction(date,time,description,vendor,amount);
+                Transaction details = new Transaction(date, time, description, vendor, amount);
                 transactionDetails.add(details);
 
-                }
+            }
 
-                for(Transaction details : transactionDetails){
-                    System.out.println(details);
+            for (Transaction details : transactionDetails) {
+                System.out.println(details);
 
             }
             System.out.println("\n\n******************************************************************************");
 
             reader.close();
-        } catch(IOException e){
-            System.out.println("Error reading file "+ e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error reading file " + e.getMessage());
         }
 
     }
@@ -311,8 +298,8 @@ public class Main {
         System.out.println("******************************************************************************");
 
 
-        try{
-            FileWriter fileWriter = new FileWriter("transactions.csv",true);
+        try {
+            FileWriter fileWriter = new FileWriter("transactions.csv", true);
 
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
@@ -329,17 +316,17 @@ public class Main {
             double paymentAmount = Double.parseDouble(userPaymentInput[4].trim());
             paymentAmount = -paymentAmount;
 
-            String newPayment = String.format("%s|%s|%s|%s|%.2f", paymentDate,paymentTime,paymentDescription,paymentVendor,paymentAmount);
+            String newPayment = String.format("%s|%s|%s|%s|%.2f", paymentDate, paymentTime, paymentDescription, paymentVendor, paymentAmount);
 
             writer.write(newPayment);
             writer.newLine();
             writer.close();
 
-            System.out.println(" You have added "+ newPayment+"\n\n");
+            System.out.println(" You have added " + newPayment + "\n\n");
 
 
         } catch (IOException e) {
-            throw new RuntimeException("File write error" +e.getMessage());
+            throw new RuntimeException("File write error" + e.getMessage());
         }
 
     }
@@ -353,8 +340,8 @@ public class Main {
         System.out.println("*******************************************************************************");
 
 
-        try{
-            FileWriter fileWriter = new FileWriter("transactions.csv",true);
+        try {
+            FileWriter fileWriter = new FileWriter("transactions.csv", true);
 
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
@@ -370,17 +357,17 @@ public class Main {
             String vendor = userDepositInput[3];
             double amount = Double.parseDouble(userDepositInput[4].trim());
 
-            String newDeposit = String.format("%s|%s|%s|%s|%.2f", date,time,description,vendor,amount);
+            String newDeposit = String.format("%s|%s|%s|%s|%.2f", date, time, description, vendor, amount);
 
             writer.write(newDeposit);
             writer.newLine();
             writer.close();
 
-            System.out.println(" You have added "+ newDeposit+"\n\n");
+            System.out.println(" You have added " + newDeposit + "\n\n");
 
 
         } catch (IOException e) {
-            throw new RuntimeException("File write error" +e.getMessage());
+            throw new RuntimeException("File write error" + e.getMessage());
         }
 
     }

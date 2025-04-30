@@ -137,7 +137,6 @@ public class Main {
     }
 
     private static void displaySearchByVendor() {
-        displayAllTransactions();
         System.out.println("Please enter the vendor's name: ");
         scanner.nextLine();
         String vendorNameInput = scanner.nextLine();

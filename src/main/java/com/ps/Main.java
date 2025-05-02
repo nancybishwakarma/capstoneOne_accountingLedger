@@ -125,11 +125,11 @@ public class Main {
                 displayPreviousYear();
                 break;
             case 5:
-
+                scanner.nextLine();
                 displaySearchByVendor();
                 break;
             case 0:
-                displayReports();
+                displayLedgerScreen();
                 break;
             default:
                 System.out.println("Wrong input! Please try again.");
@@ -138,21 +138,35 @@ public class Main {
     }
 
     private static void displaySearchByVendor() {
-        scanner.nextLine();
+
         System.out.println("Please enter the vendor's name: ");
 
         String vendorNameInput = scanner.nextLine().trim();
         // check if empty
+        if(vendorNameInput.isEmpty()){
+            System.out.println("No input. Try again.");
+
+            displaySearchByVendor();
+            return;
+        }
+        System.out.println(AnsiColors.YELLOW+"╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮");
+        System.out.println("│"+AnsiColors.WHITE_BG+AnsiColors.BOLD+AnsiColors.RED+ "                                                         DISPLAYING BY VENDOR                                                   "+ AnsiColors.RESET+AnsiColors.YELLOW+"│");
+        System.out.println("╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯"+AnsiColors.RESET);
         for (Transaction transaction : transactionList) {
             if (vendorNameInput.equalsIgnoreCase(transaction.getVendor().trim())) {
-                System.out.println(transaction);
+                System.out.println(" "+transaction);
             }
         }
+        System.out.println(AnsiColors.YELLOW+"╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯"+AnsiColors.RESET+"\n\n");
 
+        displayReports();
     }
 
     private static void displayPreviousYear() {
 
+        System.out.println(AnsiColors.RED+"╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮");
+        System.out.println("│"+AnsiColors.WHITE_BG+AnsiColors.BOLD+AnsiColors.RED+ "                                                         DISPLAYING PREVIOUS YEAR                                               "+ AnsiColors.RESET+AnsiColors.RED+"│");
+        System.out.println("╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯"+AnsiColors.RESET);
         LocalDate lastYearDate = todayDate.minusYears(1);
         int lastYear = lastYearDate.getYear();
 
@@ -162,76 +176,76 @@ public class Main {
                 System.out.println(transaction);
             }
         }
+        System.out.println(AnsiColors.RED+"╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯"+AnsiColors.RESET);
 
+        displayReports();
     }
 
     private static void displayYearToDate() {
 
+        System.out.println(AnsiColors.PURPLE+"╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮");
+        System.out.println("│"+AnsiColors.WHITE_BG+AnsiColors.BOLD+AnsiColors.PURPLE+ "                                                         DISPLAYING YEAR TO DATE                                                "+ AnsiColors.RESET+AnsiColors.PURPLE+"│");
+        System.out.println("╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯"+AnsiColors.RESET);
         int thisYear = todayDate.getYear();
 
         for (Transaction transaction : transactionList) {
 
             LocalDate localDate = LocalDate.parse(transaction.getDate(), formatter);
             if (localDate.getYear() == thisYear) {
-                System.out.println(transaction);
+                System.out.println(" "+transaction);
             }
         }
+        System.out.println(AnsiColors.PURPLE+"╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯"+AnsiColors.RESET);
 
+        displayReports();
     }
 
     private static void displayPreviousMonth() {
 
+        System.out.println(AnsiColors.CYAN+"╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮");
+        System.out.println("│"+AnsiColors.WHITE_BG+AnsiColors.BOLD+AnsiColors.BLACK+ "                                                         DISPLAYING PREVIOUS MONTH                                              "+ AnsiColors.RESET+AnsiColors.CYAN+"│");
+        System.out.println("╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯"+AnsiColors.RESET);
+
         LocalDate lastMonthDate = todayDate.minusMonths(1);
         int lastMonth = lastMonthDate.getMonthValue();
         int thisYear = todayDate.getYear();
+
+
         for (Transaction transaction : transactionList) {
             LocalDate localDate = LocalDate.parse(transaction.getDate(), formatter);
             if (localDate.getMonthValue() == lastMonth && localDate.getYear() == thisYear) {
-                System.out.println(transaction);
+                System.out.println(" "+transaction);
             }
         }
+        System.out.println(AnsiColors.CYAN+"╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯"+AnsiColors.RESET);
 
+        displayReports();
     }
 
     private static void displayMonthToDate() {
+        System.out.println(AnsiColors.ORANGE+"╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮");
+        System.out.println("│"+AnsiColors.WHITE_BG+AnsiColors.BOLD+AnsiColors.ORANGE+ "                                                         DISPLAYING ALL MONTH TO DATE                                           "+ AnsiColors.RESET+AnsiColors.ORANGE+"│");
+        System.out.println("╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯"+AnsiColors.RESET);
 
         int thisMonth = todayDate.getMonthValue();
         int thisYear = todayDate.getYear();
         for (Transaction transaction : transactionList) {
-
             LocalDate localDate = LocalDate.parse(transaction.getDate(), formatter);
             if (localDate.getMonthValue() == thisMonth && localDate.getYear() == thisYear) {
-                System.out.println(transaction);
+
+                System.out.println(" "+ transaction);
+
             }
         }
+        System.out.println(AnsiColors.ORANGE+"╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯"+AnsiColors.RESET);
 
+        displayReports();
     }
 
     private static void displayPayments() {
         System.out.println("\n" + AnsiColors.WHITE + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.out.println(AnsiColors.PURPLE_BG + AnsiColors.WHITE + AnsiColors.BOLD + "                                                           DISPLAYING ALL PAYMENTS                                          " + AnsiColors.RESET);
         System.out.println(AnsiColors.WHITE + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" + AnsiColors.RESET);
-
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
-            String firstLine = reader.readLine();
-            String line;
-
-
-            while ((line = reader.readLine()) != null) {
-
-                String[] entries = line.split("\\|");
-
-                String date = entries[0];
-                String time = entries[1];
-                String description = entries[2];
-                String vendor = entries[3];
-                double amount = Double.parseDouble(entries[4].trim());
-
-                Transaction transaction = new Transaction(date, time, description, vendor, amount);
-                transactionList.add(transaction);
-
-            }
 
             for (Transaction transaction : transactionList) {
 
@@ -241,12 +255,7 @@ public class Main {
                 }
             }
             System.out.println("\n" + AnsiColors.WHITE + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("Error reading file " + e.getMessage());
-        }
-
+        displayLedgerScreen();
     }
 
     private static void displayDeposits() {
@@ -254,27 +263,6 @@ public class Main {
         System.out.println("\n" + AnsiColors.WHITE + "----------------------------------------------------------------------------------------------------------------------------------");
         System.out.println(AnsiColors.YELLOW_BG + AnsiColors.BLACK + AnsiColors.BOLD + "                                                         DISPLAYING ALL DEPOSITS                                                  " + AnsiColors.RESET);
         System.out.println(AnsiColors.WHITE + "----------------------------------------------------------------------------------------------------------------------------------\n");
-
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
-            String firstLine = reader.readLine();
-            String line;
-
-
-            while ((line = reader.readLine()) != null) {
-
-                String[] entries = line.split("\\|");
-
-                String date = entries[0];
-                String time = entries[1];
-                String description = entries[2];
-                String vendor = entries[3];
-                double amount = Double.parseDouble(entries[4].trim());
-
-                Transaction transaction = new Transaction(date, time, description, vendor, amount);
-                transactionList.add(transaction);
-
-            }
 
             for (Transaction details : transactionList) {
 
@@ -284,59 +272,27 @@ public class Main {
                 }
             }
             System.out.println("\n" + AnsiColors.WHITE + "----------------------------------------------------------------------------------------------------------------------------------" + AnsiColors.RESET);
-
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("Error reading file " + e.getMessage());
-        }
-
-
+        displayLedgerScreen();
     }
 
     private static void displayAllTransactions() {
-        System.out.println(AnsiColors.GREEN + "\n°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°" + AnsiColors.RESET);
-        System.out.println(AnsiColors.YELLOW + "°\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tALL TRANSACTIONS\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   °" + AnsiColors.RESET);
-        System.out.println(AnsiColors.GREEN + "°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°\n" + AnsiColors.RESET);
+        System.out.println(AnsiColors.WHITE + "\n♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦" + AnsiColors.RESET);
+        System.out.println(AnsiColors.CYAN_BG+AnsiColors.BLACK + AnsiColors.BOLD+"\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tDISPLAYING ALL TRANSACTIONS\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   " + AnsiColors.RESET);
+        System.out.println(AnsiColors.WHITE + "♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦\n" + AnsiColors.RESET);
 
 
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("transactions.csv"));
-            String firstLine = reader.readLine();
-            String line;
-
-
-            while ((line = reader.readLine()) != null) {
-
-                String[] entries = line.split("\\|");
-
-                String date = entries[0];
-                String time = entries[1];
-                String description = entries[2];
-                String vendor = entries[3];
-                double amount = Double.parseDouble(entries[4].trim());
-
-                Transaction transaction = new Transaction(date, time, description, vendor, amount);
-                transactionList.add(transaction);
-
-            }
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("Error reading file " + e.getMessage());
-        }
         for (Transaction transaction : transactionList) {
             System.out.println(transaction);
-
         }
-        System.out.println(AnsiColors.GREEN + "\n°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°" + AnsiColors.RESET);
+        System.out.println(AnsiColors.WHITE + "♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦♦\n" + AnsiColors.RESET);
 
+
+        displayLedgerScreen();
     }
 
     private static void makePayment() {
         System.out.println("\n _____________________________________________________________________________");
         System.out.println("|" + AnsiColors.YELLOW + "\t\t\t\t\t\tYOU HAVE SELECTED TO MAKE PAYMENTS\t\t\t\t\t" + AnsiColors.RESET + " |");
-        System.out.println("|____________________________________________________________________________|");
-        System.out.println("|" + AnsiColors.YELLOW + "\tPLEASE ADD THE PAYMENT INFO. IN THE FOLLOWING MANNER SEPARATED BY COMMAS" + AnsiColors.RESET + " |");
-        System.out.println("|" + AnsiColors.YELLOW + "\t\tExample: 2023-04-24,12:00:00,Invoice 1006 paid,PixelWorks,1600.00\t" + AnsiColors.RESET + " |");
         System.out.println("|____________________________________________________________________________|");
 
 
@@ -346,29 +302,34 @@ public class Main {
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
 
-            String inputPayment = scanner.nextLine().trim();
+            System.out.println("Please enter the date of payment below as (yyyy-MM-dd)");
+            String userPaymentDate = scanner.nextLine().trim();
+            LocalDate userDateOfPayment = LocalDate.parse(userPaymentDate);
 
-            String[] userPaymentInput = inputPayment.split(",");
-            //separate them
-            //convert in time right away
-            //validate with try catch
-            //if is empty. its today
+            System.out.println("Please enter the time of payment below as (HH-mm-ss)");
+            String userPaymentTime = scanner.nextLine().trim();
+            LocalTime userTimeOfPayment = LocalTime.parse(userPaymentTime);
+
+            System.out.println("Please enter the description of payment below:" );
+            String userPaymentDescription = scanner.nextLine().trim();
 
 
-            String paymentDate = userPaymentInput[0];
-            String paymentTime = userPaymentInput[1];
-            String paymentDescription = userPaymentInput[2];
-            String paymentVendor = userPaymentInput[3];
-            double paymentAmount = Double.parseDouble(userPaymentInput[4].trim());
-            paymentAmount = -paymentAmount;
+            System.out.println("PLease enter the name of the vendor below: ");
+            String userPaymentVendor = scanner.nextLine().trim();
 
-            String newPayment = String.format("%s|%s|%s|%s|%.2f", paymentDate, paymentTime, paymentDescription, paymentVendor, paymentAmount);
+
+            System.out.println("Please enter the amount of the payment below:");
+            String userPaymentAmount = scanner.nextLine().trim();
+            double userAmountPayment = -Double.parseDouble(userPaymentAmount);
+
+
+            String newPayment = String.format("%s|%s|%s|%s|%.2f", userDateOfPayment, userTimeOfPayment, userPaymentDescription, userPaymentVendor, userAmountPayment);
 
             writer.write(newPayment);
             writer.newLine();
             writer.close();
 
-            System.out.println("\n" + AnsiColors.RED_BG + AnsiColors.WHITE + "You have added ( " + newPayment + " ) payment." + AnsiColors.RESET + "\n\n");
+            System.out.println("\n" + AnsiColors.RED_BG + AnsiColors.WHITE + "You have added ( " + newPayment + " ) payment to your account." + AnsiColors.RESET + "\n\n");
 
 
         } catch (IOException e) {
@@ -381,9 +342,6 @@ public class Main {
         System.out.println("\n _____________________________________________________________________________");
         System.out.println("|" + AnsiColors.GREEN + "\t\t\t\t\t\tYOU HAVE SELECTED TO ADD DEPOSIT\t\t\t\t\t" + AnsiColors.RESET + "  |");
         System.out.println("|_____________________________________________________________________________|");
-        System.out.println("|" + AnsiColors.GREEN + "\t\tPLEASE ADD THE DEPOSIT IN THE FOLLOWING MANNER SEPARATED BY COMMAS\t" + AnsiColors.RESET + "  |");
-        System.out.println("|" + AnsiColors.GREEN + "\t\tExample: 2023-04-24,12:00:00,Invoice 1006 paid,PixelWorks,1600.00\t" + AnsiColors.RESET + "  |");
-        System.out.println("|_____________________________________________________________________________|");
 
 
         try {
@@ -391,18 +349,14 @@ public class Main {
 
             BufferedWriter writer = new BufferedWriter(fileWriter);
 
-
-
             System.out.println("Please enter the date of deposit below as (yyyy-MM-dd)");
             String userDepositDate = scanner.nextLine().trim();
-
-            LocalDate userDateofDeposit = LocalDate.parse(userDepositDate);
+            LocalDate userDateOfDeposit = LocalDate.parse(userDepositDate);
 
             System.out.println("Please enter the time of deposit below as (HH-mm-ss)");
             String userDepositTime = scanner.nextLine().trim();
+            LocalTime userTimeOfDeposit = LocalTime.parse(userDepositTime);
 
-            LocalTime userTimeofDeposit = LocalTime.parse(userDepositTime);
-            scanner.nextLine();
             System.out.println("Please enter the description of deposit below:" );
             String userDepositDescription = scanner.nextLine().trim();
 
@@ -413,16 +367,15 @@ public class Main {
 
             System.out.println("Please enter the amount of the deposit below:");
             String userDepositAmount = scanner.nextLine().trim();
-
             double userAmountDeposit = Double.parseDouble(userDepositAmount);
 
-            String newDeposit = String.format("%s|%s|%s|%s|%.2f", userDepositDate, userDepositTime, userDepositDescription, userDepositVendor, userAmountDeposit);
+            String newDeposit = String.format("%s|%s|%s|%s|%.2f", userDateOfDeposit, userTimeOfDeposit, userDepositDescription, userDepositVendor, userAmountDeposit);
 
             writer.write(newDeposit);
             writer.newLine();
             writer.close();
 
-            System.out.println("\n" + AnsiColors.RED_BG + AnsiColors.WHITE + "You have added ( " + newDeposit + " ) to your account." + AnsiColors.RESET + "\n\n");
+            System.out.println("\n" + AnsiColors.RED_BG + AnsiColors.WHITE + "You have added ( " + newDeposit + " ) deposit to your account." + AnsiColors.RESET + "\n\n");
 
 
         } catch (IOException e) {

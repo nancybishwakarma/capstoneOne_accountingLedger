@@ -2,7 +2,7 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/nancybishwakarma/capstoneOne_accountingLedger)
 ![GitHub Created At](https://img.shields.io/github/created-at/nancybishwakarma/capstoneOne_accountingLedger)
 
-# **PLURAL SIGHT BANK**
+# 🏦 **PLURAL SIGHT BANK** 🏦
 
 ## *Features*
 
@@ -19,5 +19,5 @@
 
 
 
-## *Interesting Code*
+## *Interesting Code* 🤔
 One of the most interesting parts of the project was discovering how to use ANSI escape codes to add color to the console output. I never realized it was possible to make the terminal more vibrant, and it was exciting to bring a touch of creativity and personality into the code.

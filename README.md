@@ -2,9 +2,8 @@
 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/nancybishwakarma/capstoneOne_accountingLedger)
 ![GitHub Created At](https://img.shields.io/github/created-at/nancybishwakarma/capstoneOne_accountingLedger)
-
+![PS BANK.jpg](PS%20BANK.jpg)
 # **PLURAL SIGHT BANK**
-## A Banking App that provides users with full access to their transaction history over the years.
 
 ## *Features*
 

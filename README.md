@@ -3,7 +3,7 @@
 ![GitHub Created At](https://img.shields.io/github/created-at/nancybishwakarma/capstoneOne_accountingLedger)
 
 # 🏦 **PLURAL SIGHT BANK** 🏦
-
+PluralSight Bank is a simple Java console application that allows users to track, manage, and analyze their financial transactions.
 ## *Features*
 
 - CSV File Handling

@@ -63,8 +63,8 @@ public class Transaction {
                 "Date : '" + date + '\'' +
                 ", Time : '" + time + '\'' +
                 ", Description : '" + description + '\'' +
-                ",Vendor : '" + vendor + '\'' +
-                ",Amount : " + amount +
+                ", Vendor : '" + vendor + '\'' +
+                ", Amount : " + amount +
                 '}';
     }
 }

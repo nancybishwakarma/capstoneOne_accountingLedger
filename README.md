@@ -13,7 +13,7 @@
 - Generate reports that filter by Month, Year, Vendor, etc.
 
 ## *Three Screens To Navigate the Program*
-
+![CONSOLE GIF.gif](CONSOLE%20GIF.gif)
 
 
 
